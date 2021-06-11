@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -31,9 +30,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable();
-
-        http.formLogin()
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/login", "/registration").anonymous()
+                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/users/**").hasRole("ADMIN")
+                .and()
+                .formLogin()
                 // указываем страницу с формой логина
                 .loginPage("/login")
                 //указываем логику обработки при логине
@@ -50,13 +53,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // разрешаем делать логаут всем
                 .permitAll()
                 // указываем URL логаута
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutUrl("/logout")
                 // указываем URL при удачном логауте
-                .logoutSuccessUrl("/login?logout")
-                .and()
-                .authorizeRequests()
-                .antMatchers("/showByUser/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/users/**").hasRole("ADMIN");
+                .logoutSuccessUrl("/login?logout");
+
+
 
 
 

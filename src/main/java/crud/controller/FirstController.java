@@ -1,6 +1,7 @@
 package crud.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -8,8 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping()
 public class FirstController {
 
-    @GetMapping()
-    public String login(){
+    @GetMapping("login")
+    public String login(Model model){
         return "login";
+    }
+
+    @GetMapping("/logout")
+    public String Logout(){
+        return "redirect:/login";
     }
 }

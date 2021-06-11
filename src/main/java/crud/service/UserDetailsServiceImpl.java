@@ -1,8 +1,6 @@
 package crud.service;
 
 import crud.dao.UserDao;
-import crud.model.Role;
-import crud.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

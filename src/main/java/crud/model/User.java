@@ -99,9 +99,11 @@ public class User implements UserDetails {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", userRoles=" + userRoles +
                 ", age=" + age +
-                ", email='" + email +
+                ", email='" + email + '\'' +
                 '}';
     }
 

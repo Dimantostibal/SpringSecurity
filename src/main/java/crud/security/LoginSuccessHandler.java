@@ -1,7 +1,5 @@
 package crud.security;
 
-import crud.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -15,22 +13,15 @@ import java.util.Set;
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     // Spring Security использует объект Authentication, пользователя авторизованной сессии.
-
-    private UserService userService;
-
-    @Autowired
-    public LoginSuccessHandler(UserService userService) {
-        this.userService = userService;
-    }
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        if (roles.contains("ROLE_USER")) {
-            httpServletResponse.sendRedirect("/showByUser");
-        } else if (roles.contains("ROLE_ADMIN")) {
+        if (roles.contains("ROLE_ADMIN")) {
             httpServletResponse.sendRedirect("/users");
+        } else if (roles.contains("ROLE_USER")) {
+            httpServletResponse.sendRedirect("/user");
         } else {
-            httpServletResponse.sendRedirect("/");
+            httpServletResponse.sendRedirect("/login");
         }
     }
 }
